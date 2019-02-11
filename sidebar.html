@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    <!-- The CSS package above applies Google styling to buttons and other elements. -->
+
+    <style>
+    .branding-below {
+      bottom: 56px;
+      top: 0;
+    }
+
+    .branding-text {
+      left: 7px;
+      position: relative;
+      top: 3px;
+    }
+
+    .col-contain {
+      overflow: hidden;
+    }
+
+    .col-one {
+      float: left;
+      width: 50%;
+    }
+
+    .logo {
+      vertical-align: middle;
+    }
+
+    .radio-spacer {
+      height: 20px;
+    }
+
+    .width-100 {
+      width: 100%;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar branding-below">
+      <form>
+        <div class="block form-group">
+           <label for="selectAccount"><b>1. Import Google Analytics Views from your account</b></label>
+           <select id="selectAccount">
+               <option selected>Loading...</option>
+           </select>
+        </div>
+        <div class="block">
+          <button class="blue" id="run-get-views">Get views</button>
+        </div>
+        
+        <div class="block">
+           <hr />
+        </div>
+        
+        <div class="block form-group">
+           <p><b>2. Publish changes to Google Analytics</b></p>
+           <p style="color:red;">Warning: This is not reversible</p>
+           <button class="blue" id="executeApp">Publish changes</button>
+           <p id="runningFeedback">&nbsp;</p>
+        </div>
+      </form>
+    </div>
+
+    <div class="sidebar bottom">
+      <span class="gray branding-text">&copy; 2018 3WhiteHats</span>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+    </script>
+    
+    <script>
+    // Run initial scripts onLoad.
+    $(function() {
+       google.script.run.withSuccessHandler(showAccounts).withFailureHandler(showError)
+       .getAccounts();
+       $('#run-get-views').click(runGetViews);
+       $('#executeApp').click(executeApplication);
+    });
+    
+    // Callback that updates the accounts list.
+    function showAccounts(accounts) {
+       var select = $('#selectAccount');
+       select.empty();
+       for (var i = 0; i < accounts.length; i++) {
+           select.append('<option value="' + accounts[i].id + '">' + accounts[i].name + '</option>');
+       }
+    }
+    
+    // Request to print properties to the sheet.
+    function runGetViews(e) {
+       e.preventDefault();
+       $(this).prop("disabled",true);
+       
+       google.script.run.withSuccessHandler(function(msg, element){
+           $(element).prop("disabled", false);
+       })
+       .withFailureHandler(showError)
+      .withUserObject(this).printViewList($("#selectAccount").val());
+    }
+    
+    // Execute the update
+    function executeApplication(e) {
+       e.preventDefault();
+       startRunning();
+       google.script.run.withFailureHandler(showError).withUserObject(this).withSuccessHandler(stopRunning).executeApp();
+    }   
+    
+    function startRunning() {
+       $("#error").remove();
+       $("#executeApp").prop("disabled", true);
+       $("#runningFeedback").text("Running...").show();
+    }
+    
+    function stopRunning() {
+       $("#executeApp").prop("disabled", false);
+       $("#runningFeedback").text("Success!").delay(5000).fadeOut(1000);        
+    }
+    
+    /**
+    * Inserts a div that contains an error message after a given element.
+    *
+    * @param msg The error message to display.
+    * @param element The element after which to display the error.
+    */
+    function showError(msg, element) { 
+       var div = $('<div id="error" class="error">' + msg + '</div>');
+       $(element).after(div);
+       $("#executeApp").prop("disabled", false);
+       $("#runningFeedback").hide();
+    }
+    
+    </script>
+
+  </body>
+</html>
