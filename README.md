@@ -12,6 +12,10 @@ This is the source code for our [GA Bulk View Editor](https://www.3whitehats.com
     - Google Sheets API
 - Google Cloud Project with _EDIT_ enabled for Google Analytics management API.
 
+## ChangeLog
+
+- [It's here](CHANGELOG.md)
+
 ## License
 
 This script is open source under the [MIT License](LICENSE).
