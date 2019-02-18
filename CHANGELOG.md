@@ -8,5 +8,5 @@ Author: garnould@oxoxo.net, iProspect France
 
 - Added a new Preferences pane
 - Added a feature to limit retrieved/patched account
- - Empty account list in Preferences let the extension retrieve/patch any account
- - A comma separated account id list limits the extension to work only on the listed accounts
+    - Empty account list in Preferences let the extension retrieve/patch any account
+    - A comma separated account id list limits the extension to work only on the listed accounts
