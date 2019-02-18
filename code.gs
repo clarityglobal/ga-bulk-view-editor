@@ -56,7 +56,7 @@ function executeApp() {
   if (rejectedPatches.length > 0) {
     
     msg += "\n\n" ;
-    msg += "WARNING : Changes targeting the follwing account(s) were rejected because account IDs were not declared in the Preferences account list : " + rejectedPatches.join(', ') ;
+    msg += "WARNING : Changes targeting the following account(s) were rejected because account IDs were not declared in the Preferences account list : " + rejectedPatches.join(', ') ;
     
   }
   
