@@ -14,7 +14,7 @@ This is the source code for our [GA Bulk View Editor](https://www.3whitehats.com
 
 ## ChangeLog
 
-- [It's here](CHANGELOG.md)
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
