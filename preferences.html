@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    <!-- The CSS package above applies Google styling to buttons and other elements. -->
+  </head>
+  <body>
+    <div class="sidebar branding-below">
+
+      <div id="before-error"></div>
+      
+      <form>
+        <div class="block form-group">
+           <label for="prefs-accountList"><b>Process only the following accounts</b><br />(comma separated list: XX,YY,...)</label>
+           <input id="prefs-accountList" type="text" value="Loading..." />
+        </div>
+      
+        <div class="block">
+          <hr />
+        </div>
+
+        <div class="block">
+          <button class="grey" id="prefs-cancel">Cancel</button>
+          <button class="blue" id="prefs-apply" disabled="true">Apply</button>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="sidebar bottom">
+      <span class="gray branding-text">&copy; 2018-2019 3WhiteHats</span>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+    </script>
+
+    <script>
+    // Run initial scripts onLoad.
+    $(function() {
+       console.log("preferences.html: displayed") ;
+    
+       google.script.run.withSuccessHandler(initializePrefsValues).withFailureHandler(showError).getPreferences();
+       
+       $('#prefs-cancel').click(closePreferences);
+       $('#prefs-apply').click(applyPreferences);
+    });
+
+    // Helpers
+    function initializePrefsValues(prefs) {
+       $('#prefs-accountList').val(prefs['accountList'].join(', ')) ;
+       
+       $("#prefs-apply").prop("disabled", false);
+    }
+
+    // Callbacks
+    function closePreferences() {
+       google.script.host.close();
+    }
+    
+    function applyPreferences(e) {
+       e.preventDefault();
+       $("#prefs-apply").prop("disabled", true);
+    
+       // accountList
+    
+       accountList = $('#prefs-accountList').val() ;
+       
+       if ( (/^\s*\d+(?:\s*,\s*\d+\s*)*$/.exec(accountList) === null) && (/^\s*$/.exec(accountList) === null) ) {
+          showError("Invalid accountList format", $('div#before-error'));
+          $("#prefs-apply").prop("disabled", false);
+          return;
+       }
+
+       accountList = accountList.split(/,/) ;
+       
+       for (var loop=0; loop<accountList.length; ++loop) {
+          accountList[loop] = accountList[loop].replace(/\s*/g, '') ;
+       }
+
+       // update on UserProperties
+
+       google.script.run.withSuccessHandler( function(){ google.script.host.close(); } ).withFailureHandler(showError).savePreferences({
+          accountList: accountList
+       });
+    }
+
+    /**
+    * Inserts/replaces a div that contains an error message after a given element.
+    *
+    * @param msg The error message to display.
+    * @param element The element after which to display the error.
+    */
+    function showError(msg, element) {
+       $('div#error').remove() ;
+       var div = $('<div id="error" class="error">' + msg + '</div>');
+       $(element).after(div);
+    }
+
+    </script>
+
+  </body>
+</html>
