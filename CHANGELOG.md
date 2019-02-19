@@ -4,7 +4,7 @@ Here is a list of changes
 
 ## 20190218 - Preferences & account(s) restriction
 
-Author: garnould@oxoxo.net, iProspect France
+Author: Georges Arnould, georges.arnould@iprospect.com, iProspect France
 
 - Added a new Preferences pane
 - Added a feature to limit retrieved/patched account
