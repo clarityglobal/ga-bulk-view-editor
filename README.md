@@ -16,6 +16,10 @@ This is the source code for our [GA Bulk View Editor](https://www.3whitehats.com
 
 See [CHANGELOG.md](CHANGELOG.md).
 
+## Contributors
+
+- Georges Arnould, georges.arnould@iprospect.com, iProspect France
+
 ## License
 
 This script is open source under the [MIT License](LICENSE).
