@@ -5,7 +5,7 @@ function getKeyedObjectFromRange(range) {
   var values = range.getValues();
   var headerRow = values.shift();
   var returnData = [];
-  
+
   for (var k in values) {
     var row = values[k];
     var object = {};
@@ -16,7 +16,7 @@ function getKeyedObjectFromRange(range) {
     }
     returnData.push(object);
   }
- 
+
   return returnData;
 }
 
@@ -25,7 +25,7 @@ function getKeyedObjectFromRange(range) {
 * Retains false drops all other empty values.
 */
 function clean(obj) {
-  for (var propName in obj) { 
+  for (var propName in obj) {
     if (typeof obj[propName] === "string") {
       obj[propName] = obj[propName].trim();
     }
@@ -34,7 +34,7 @@ function clean(obj) {
       delete obj[propName];
     }
   }
-  
+
   return obj;
 }
 
@@ -46,7 +46,7 @@ function except(obj, keys) {
     }
     newObj[propName] = obj[propName];
   }
-        
+
   return newObj;
 }
 
@@ -58,8 +58,8 @@ function pluckByKey(key, object){
   for( var i = 0, n = object.length;  i < n;  ++i ) {
     var o = object[i];
     result.push(o[key]);
-  } 
-  
+  }
+
   return result;
 }
 
@@ -71,20 +71,20 @@ function getColumnValuesByName(name, sheet) {
   var rowNumber = range.getRow();
   var columnNumber = getColumnByHeaderName(name, range);
   var values = sheet.getRange(rowNumber, columnNumber, sheet.getLastRow(), 1).getValues();
-  
+
   // Shift first record (header row)
   values.shift();
-  
+
   // Remove empty rows
   values = values.filter(function(element){
     return element[0] == "" ? false : true;
   });
-  
+
   // Pull first column from each row
   values = values.map(function(element){
     return element = element[0];
   });
-  
+
   return values;
 }
 
@@ -94,13 +94,13 @@ function getColumnValuesByName(name, sheet) {
 function getColumnByHeaderName(name, range) {
   var firstColumnNumber = range.getColumn();
   var headerRow = range.getValues().shift();
-  
+
   for (var k in headerRow) {
     var headerValue = headerRow[k];
     if (headerValue == name){
       return Math.round(parseFloat(k) + parseFloat(firstColumnNumber));
     }
   }
-  
+
   return false;
 }

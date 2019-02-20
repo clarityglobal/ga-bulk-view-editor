@@ -15,23 +15,23 @@ function createSheet(name) {
 function getOrCreateSheetByName(name, headers, clear){
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(name);
-  
+
   // Create sheet if doesn't exist
   if (sheet == null){
     sheet = createSheet(name);
   }
-  
+
   // Clear sheet if true
   if (clear) {
     sheet.clear();
   }
- 
+
   // Add the headers to the sheet if the headers are defined and the sheet is empty
   if (headers != null && isSheetEmpty(sheet)) {
     var range = sheet.getRange(1, 1, 1, headers.length)
     .setValues([headers]).setFontWeight('bold');
-  }  
-  
+  }
+
   return sheet;
 }
 
